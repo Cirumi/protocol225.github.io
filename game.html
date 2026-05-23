@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Протокол 225 — Карточная игра</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ГЛАВНОЕ МЕНЮ -->
+    <div class="main-menu" id="main-menu">
+        <div class="menu-bg"></div>
+        <div class="menu-content">
+            <h1 class="menu-title">Протокол 225</h1>
+            <p class="menu-subtitle">Карточная тактическая игра</p>
+            
+            <!-- Профиль -->
+            <div class="user-profile" id="user-profile">
+                <span id="user-info-display">👤 Гость</span>
+                <span id="user-stats-display" style="font-size:10px;color:#888;"></span>
+            </div>
+
+            <div class="menu-buttons">
+                <button class="menu-btn start-btn" id="start-game-btn">🎮 ИГРА С БОТОМ</button>
+                <button class="menu-btn online-btn" id="online-btn">🌐 ИГРА ОНЛАЙН</button>
+                <button class="menu-btn friends-btn" id="friends-btn">👥 ДРУЗЬЯ</button>
+                <button class="menu-btn rules-menu-btn" id="menu-rules-btn">📜 ПРАВИЛА</button>
+                <button class="menu-btn theme-btn" id="theme-btn">🎨 ТЕМА: <span id="theme-name">КИБЕРПАНК</span></button>
+            </div>
+
+            <div class="theme-selector" id="theme-selector">
+                <button class="theme-option" data-theme="cyberpunk">🌃 КИБЕРПАНК</button>
+                <button class="theme-option" data-theme="military">🪖 ВОЕННАЯ</button>
+                <button class="theme-option" data-theme="crimson">🩸 КРОВАВАЯ</button>
+                <button class="theme-option" data-theme="forest">🌲 ЛЕСНАЯ</button>
+                <button class="theme-option" data-theme="ocean">🌊 ОКЕАН</button>
+                <button class="theme-option" data-theme="sunset">🌅 ЗАКАТ</button>
+            </div>
+
+            <div class="auth-buttons">
+                <button class="menu-btn small-btn" id="login-btn">🔑 ВОЙТИ</button>
+                <button class="menu-btn small-btn" id="register-btn-menu">📝 РЕГИСТРАЦИЯ</button>
+                <button class="menu-btn small-btn" id="logout-btn" style="display:none;">🚪 ВЫЙТИ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- МЕНЮ АВТОРИЗАЦИИ -->
+    <div class="main-menu" id="auth-menu" style="display:none;">
+        <div class="menu-bg"></div>
+        <div class="menu-content">
+            <h1 class="menu-title" id="auth-title">ВХОД</h1>
+            <div class="auth-form">
+                <input type="text" id="auth-username" placeholder="Логин" maxlength="20">
+                <input type="password" id="auth-password" placeholder="Пароль" maxlength="30">
+                <p class="auth-error" id="auth-error"></p>
+                <button class="menu-btn start-btn" id="auth-login-btn">🔑 ВОЙТИ</button>
+                <button class="menu-btn online-btn" id="auth-register-btn">📝 ЗАРЕГИСТРИРОВАТЬСЯ</button>
+                <button class="menu-btn back-btn" id="auth-back-btn">↩️ НАЗАД</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- МЕНЮ ДРУЗЕЙ -->
+    <div class="main-menu" id="friends-menu" style="display:none;">
+        <div class="menu-bg"></div>
+        <div class="menu-content">
+            <h1 class="menu-title">👥 ДРУЗЬЯ</h1>
+            <div class="friends-panel">
+                <div class="friend-info">
+                    <p>Ваш код: <b id="my-code-display">------</b></p>
+                    <button class="menu-btn small-btn" id="copy-code-btn">📋 КОПИРОВАТЬ</button>
+                </div>
+                <div class="friend-list">
+                    <h3>Список друзей</h3>
+                    <div id="friends-list-container">
+                        <p class="empty-text">Войдите для списка друзей</p>
+                    </div>
+                    <div class="add-friend">
+                        <input type="text" id="friend-code-input" placeholder="Код друга">
+                        <button class="menu-btn small-btn" id="add-friend-btn">➕ ДОБАВИТЬ</button>
+                    </div>
+                </div>
+            </div>
+            <button class="menu-btn back-btn" id="friends-back-btn">↩️ НАЗАД</button>
+        </div>
+    </div>
+
+    <!-- МЕНЮ ОНЛАЙН -->
+    <div class="main-menu" id="online-menu" style="display:none;">
+        <div class="menu-bg"></div>
+        <div class="menu-content">
+            <h1 class="menu-title">🌐 ОНЛАЙН ИГРА</h1>
+            <div class="online-panel">
+                <div class="online-section">
+                    <h3>Создать игру</h3>
+                    <button class="menu-btn online-action-btn" id="create-room-btn">🏠 СОЗДАТЬ КОМНАТУ</button>
+                    <div id="room-created-info" style="display:none;">
+                        <p>Код комнаты: <b id="room-code-display">------</b></p>
+                        <button class="menu-btn small-btn" id="copy-room-btn">📋 КОПИРОВАТЬ</button>
+                        <p class="waiting-text">Ожидание игрока...</p>
+                    </div>
+                </div>
+                <div class="online-section">
+                    <h3>Присоединиться</h3>
+                    <input type="text" id="join-room-input" placeholder="Код комнаты" maxlength="30">
+                    <button class="menu-btn online-action-btn" id="join-room-btn">🚪 ВОЙТИ</button>
+                </div>
+                <div id="online-status"></div>
+            </div>
+            <button class="menu-btn back-btn" id="online-back-btn">↩️ НАЗАД</button>
+        </div>
+    </div>
+
+    <!-- ИГРОВОЙ КОНТЕЙНЕР -->
+    <div class="game-container" id="game-container" style="display:none;">
+        <header class="header">
+            <h1 class="title">Протокол 225</h1>
+            <div class="subtitle" id="game-mode-text">Игра с ботом</div>
+        </header>
+
+        <div class="main-layout">
+            <div class="game-board">
+                <section class="enemy-area">
+                    <div class="player-info">
+                        <span class="player-name" id="enemy-name">🤖 Компьютер</span>
+                        <span class="card-count" id="enemy-count">Карт: 6</span>
+                    </div>
+                    <div class="cards-row" id="enemy-cards"></div>
+                </section>
+
+                <section class="battle-area">
+                    <div class="deck-zone">
+                        <div class="deck-label">СБРОС</div>
+                        <div class="deck-pile discard-pile" id="discard-pile">
+                            <span class="deck-count-display" id="discard-count">0</span>
+                        </div>
+                    </div>
+                    <div class="battlefield">
+                        <div class="battle-slot" id="enemy-battle-slot">
+                            <span class="slot-label">Противник</span>
+                        </div>
+                        <div class="battle-zone" id="battle-zone">
+                            <div class="vs-text" id="vs-text">⚔️</div>
+                            <div class="battle-result" id="battle-result"></div>
+                        </div>
+                        <div class="battle-slot" id="player-battle-slot">
+                            <span class="slot-label">Вы</span>
+                        </div>
+                    </div>
+                    <div class="deck-zone">
+                        <div class="deck-label">КОЛОДА</div>
+                        <div class="deck-pile draw-pile" id="main-deck-pile">
+                            <span class="deck-count-display" id="deck-count">14</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="player-area">
+                    <div class="cards-row" id="player-cards"></div>
+                    <div class="player-info">
+                        <span class="player-name">👤 Вы</span>
+                        <span class="card-count" id="player-count">Карт: 6</span>
+                    </div>
+                </section>
+
+                <section class="controls">
+                    <button id="pass-btn">🎯 ПАС</button>
+                    <button id="give-turn-btn">🔄 ОТДАТЬ ХОД</button>
+                    <button id="draw-btn">📥 ДОБРАТЬ ДО 6</button>
+                    <button id="combo-btn">🔗 КОМБО</button>
+                    <button id="new-round-btn">🆕 НОВЫЙ РАУНД</button>
+                    <button id="menu-btn">🏠 МЕНЮ</button>
+                </section>
+                <div class="status-message" id="status-message"></div>
+            </div>
+
+            <div class="history-panel">
+                <h3>📋 ИСТОРИЯ</h3>
+                <div class="history-stats">
+                    <span>Вы: <b id="player-wins">0</b></span>
+                    <span>Опп: <b id="enemy-wins">0</b></span>
+                    <span>Ничьи: <b id="draws">0</b></span>
+                </div>
+                <div class="history-list" id="history-list"></div>
+            </div>
+        </div>
+
+        <!-- Модалки -->
+        <div class="modal" id="rules-modal">
+            <div class="modal-content">
+                <h2>📜 ПРАВИЛА</h2>
+                <div class="rules-scroll">
+                    <p><b>Цель:</b> Избавиться от карт или иметь больше звёзд.</p>
+                    <p><b>Иерархия:</b> Военные > Преступники > Мирные</p>
+                    <p><b>Сильный преступник (3-5⭐) бьёт слабого военного (1-3⭐)</b></p>
+                    <p><b>Лиза² (225⭐) не бьётся Военными</b></p>
+                    <p><b>Агенты</b> — бьют всех, погибают, крадут</p>
+                </div>
+                <button id="close-rules-btn">ПОНЯТНО</button>
+            </div>
+        </div>
+
+        <div class="modal" id="steal-modal">
+            <div class="modal-content">
+                <h2>🕶️ ВЫБОР КАРТЫ</h2>
+                <div class="cards-grid" id="steal-cards-grid"></div>
+            </div>
+        </div>
+
+        <div class="modal" id="combo-modal">
+            <div class="modal-content combo-content">
+                <h2>🔗 КОМБО</h2>
+                <div class="cards-grid" id="combo-cards-grid"></div>
+                <div class="combo-info" id="combo-info"></div>
+                <div class="combo-buttons">
+                    <button id="combo-confirm-btn" disabled>СОЗДАТЬ</button>
+                    <button id="combo-cancel-btn">ОТМЕНА</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="effects-overlay" id="effects-overlay"></div>
+    <script src="script.js"></script>
+</body>
+</html>
